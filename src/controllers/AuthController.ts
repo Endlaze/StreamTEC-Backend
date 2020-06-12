@@ -11,7 +11,17 @@ class AuthController {
         if (user) {
           if (user.comparePassword(password)) {
 
-            let retUser = { name: user.name, email: user.email, phone: user.phone, birthdate: user.birthdate, membership: user.membership, videos: user.videos, albums: user.albums }
+            let retUser = {
+              name: user.name,
+              email: user.email,
+              phone: user.phone,
+              birthdate: user.birthdate,
+              membership: user.membership,
+              videos: user.videos,
+              albums: user.albums,
+              videoPlaylists: user.videoPlaylists,
+              musicPlaylists: user.musicPlaylists
+            }
             res.status(200).json({ code: 200, message: "Usuario autenticado", token: jwt.sign(JSON.stringify(user), 'streamTEC'), user: retUser });
 
           } else {

@@ -11,12 +11,42 @@ export interface IUserModel extends Document {
   birthdate: Date;
   password: string;
   membership: number;
-  videos: [{ idVideo: Number, purchasePrice: number, purchaseDate?: Date }],
-  albums: [{ idAlbum: Number, tracks: { number: number, purchasePrice: number, purchaseDate?: Date } }];
+  videos: [{ idVideo: number, purchasePrice: number, purchaseDate?: Date }],
+  albums: [{ idAlbum: number, tracks: { number: number, purchasePrice: number, purchaseDate?: Date } }];
+  videoPlaylists: [{ name: string, videos: [{ idVideo: number }] }]
+  musicPlaylists: [{ name: string, tracks: [{ idAlbum: number, number: number }] }]
   comparePassword: Function;
 }
+const MusicPlaylistSchema: Schema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  tracks: [{
+    idAlbum: {
+      type: Number,
+      required: true
+    },
+    number: {
+      type: Number,
+      required: true
+    }
+  }]
+});
 
 // Owned videos schema
+const VideoPlaylistSchema: Schema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  videos: [{
+    idVideo: {
+      type: Number,
+      required: true
+    }
+  }]
+});
 
 const VideoSchema: Schema = new Schema({
   idVideo: {
@@ -92,7 +122,9 @@ const UserSchema: Schema = new Schema({
     required: true,
   },
   albums: [AlbumSchema],
-  videos: [VideoSchema]
+  videos: [VideoSchema],
+  videoPlaylists: [VideoPlaylistSchema],
+  musicPlaylists: [MusicPlaylistSchema]
 }, {
   collection: 'userdb',
   timestamps: true,
